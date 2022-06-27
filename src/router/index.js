@@ -1,15 +1,15 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+import Todo from '../views/Todo.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/',
-    name: 'Home',
-    component: Home
-  },
+    name: 'Todo',
+    component: Todo
+  },  
   {
     path: '/about',
     name: 'About',
@@ -17,11 +17,25 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-  }
+  },
+  // {
+  //   path: '/photos',
+  //   name: 'Photos',
+  //   component: () => import(/* webpackChunkName: "photos" */ '../views/Photos.vue')
+  // }, 
 ]
 
 const router = new VueRouter({
   routes
+})
+
+router.beforeEach((to, from, next) => {
+  document.title = `${ process.env.VUE_APP_TITLE } - ${ to.name }`
+  next()
+})
+
+router.afterEach((to, from) => {
+  window.scrollTo(0, 0)
 })
 
 export default router
